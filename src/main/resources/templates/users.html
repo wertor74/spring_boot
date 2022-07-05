@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Таблица пользователей</title>
+    <style>
+        table th, table td {padding: 5px}
+    </style>
+</head>
+<body>
+<p><h1>Таблица пользователей</h1></p>
+<p></p>
+<table style="text-align: center" th:border="1">
+    <tr>
+        <th>Id</th>
+        <th>Имя</th>
+        <th>Отчество</th>
+        <th>Фамилия</th>
+        <th>Возраст</th>
+        <th>Действие</th>
+    </tr>
+    <tr th:each="user : ${user}">
+        <td th:utext="${user.getId()}">ID</td>
+        <td th:utext="${user.getName()}">Имя</td>
+        <td th:utext="${user.getFatherName()}">Отчество</td>
+        <td th:utext="${user.getLastName()}">Фамилия</td>
+        <td th:utext="${user.getAge()}">Возраст</td>
+        <td> <a th:href="@{/{id}(id=${user.getId()})}">Редактировать</a></td>
+    </tr>
+</table>
+<p/>
+<a th:href="@{/add}">Добавить пользователя</a>
+</body>
+</html>
