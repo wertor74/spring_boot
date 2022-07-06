@@ -4,18 +4,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.wertor.spring_boot.model.User;
-import ru.wertor.spring_boot.repository.UserRepository;
-import ru.wertor.spring_boot.service.UserService;
-
-import java.util.List;
+import ru.wertor.spring_boot.service.UserServiceImp;
 
 @Controller
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImp userServiceImp;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(UserServiceImp userServiceImp) {
+        this.userServiceImp = userServiceImp;
     }
 
     @GetMapping(value = "/")
@@ -27,13 +24,13 @@ public class UserController {
 
     @GetMapping(value = "/users")
     public String showUsers(Model model) {
-        model.addAttribute("user", userService.findAll());
+        model.addAttribute("user", userServiceImp.findAll());
         return "users";
     }
 
     @GetMapping(value = "/{id}")
     public String showUserFromId(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.findById(id));
+        model.addAttribute("user", userServiceImp.findById(id));
         return "user";
     }
 
@@ -44,25 +41,25 @@ public class UserController {
 
     @PostMapping("/add")
     public String createUser(@ModelAttribute("user") User user) {
-        userService.saveUser(user);
+        userServiceImp.saveUser(user);
         return "redirect:/users";
     }
 
     @GetMapping(value = "/{id}/edit")
     public String editUser(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("user", userService.findById(id));
+        model.addAttribute("user", userServiceImp.findById(id));
         return "edit";
     }
 
     @PatchMapping(value = "/{id}/edit")
     public String updateUser(@ModelAttribute("user") User user, @PathVariable("id") Long id) {
-        userService.saveUser(user);
+        userServiceImp.saveUser(user);
         return "redirect:/users";
     }
 
     @DeleteMapping(value = "/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
-        userService.deleteById(id);
+        userServiceImp.deleteById(id);
         return "redirect:/users";
     }
 }
